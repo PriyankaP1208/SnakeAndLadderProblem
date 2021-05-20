@@ -4,7 +4,7 @@ public class SnakeLadder {
     public static void main(String args[])
     {
         int position=0;
-        while(position!=100)
+        while(position!=10)
         {
             int dieRoll=1+(int)Math.floor(Math.random()*10)%6;
             System.out.println("Die Rolled:"+dieRoll);
@@ -24,6 +24,7 @@ public class SnakeLadder {
                 {
                     continue;
                 }
+
             }
             else
             {

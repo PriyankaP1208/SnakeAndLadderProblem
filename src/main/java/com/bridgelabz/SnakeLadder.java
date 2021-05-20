@@ -20,6 +20,10 @@ public class SnakeLadder {
                 {
                     position+=dieRoll;
                 }
+                else if(position+dieRoll>100)
+                {
+                    continue;
+                }
             }
             else
             {

@@ -1,80 +1,82 @@
 package com.bridgelabz;
 
-import java.util.Random;
-
 public class SnakeLadder {
-    static Random random = new Random();
-    public static void main(String[] args) {
-        int position_player1 = 0, position_player2 = 0, optionSelect, rollDie = 0, flag = 0, win, dice_count = 0;
-        Random random = new Random();
-        while (position_player1 != 100 || position_player2 != 100) {
-            optionSelect = random.nextInt(3) + 1;
-            if (flag == 0) {
-                if (optionSelect == 1) {
-                    System.out.println("No Play");
-                } else if (optionSelect == 2) {
-                    System.out.println("Ladder Comes");
-                    rollDie = random.nextInt(6) + 1;
-                    if (position_player1 + rollDie <= 100)
-                        position_player1 += rollDie;
-                    flag = 1;
-                } else {
-                    System.out.println("Snake Comes");
-                    rollDie = random.nextInt(6) + 1;
-                    if ((position_player1 - rollDie) < 0)
-                        position_player1 = 0;
-                    else
-                        position_player1 -= rollDie;
+    //Roll the die
+    public static int rollDie()
+    {
+        int die = (int) (Math.floor(Math.random()*10)%6);
+        return die;
+    }
+
+    //game play by players
+    public static int gamePlay(int position)
+    {
+        int die;
+        int flag = 0;
+        die = rollDie();
+        System.out.println("Roll the die" + die);
+        int option = (int) (Math.floor(Math.random() * 3) + 1);
+        flag++;
+        switch (option) {
+            case 1:
+                System.out.println("No Play.");
+                break;
+            case 2:
+                position += die;
+                System.out.println("ladder");
+                if (position <= 100) {
+                    position += die;
+                } else if (position > 100) {
+                    position = 100;
                 }
-                System.out.println("Die rolled as " + rollDie);
-                System.out.println("1st Player Position Is " + position_player1);
-                dice_count++;
-                System.out.println("Dice rolled Count:" + dice_count);
-                win = WinCheck(position_player1);
-                if (win == 1) {
-                    System.out.print("Player 1 Wins");
-                    break;
-                } else {
-                    continue;
-                }
-            } else {
-                if (optionSelect == 1) {
-                    System.out.println("No Play");
-                } else if (optionSelect == 2) {
-                    System.out.println("Ladder Comes");
-                    rollDie = random.nextInt(6) + 1;
-                    if (position_player2 + rollDie <= 100)
-                        position_player2 += rollDie;
-                    flag = 0;
-                } else {
-                    System.out.println("Snake Comes");
-                    rollDie = random.nextInt(6) + 1;
-                    if ((position_player2 - rollDie) < 0)
-                        position_player2 = 0;
-                    else
-                        position_player2 -= rollDie;
-                }
-                System.out.println("Dies turn as " + rollDie);
-                System.out.println("2nd Player Position Is " + position_player2);
-                dice_count++;
-                System.out.println("Dice rolled Count:" + dice_count);
-                win = WinCheck(position_player2);
-                if (win == 1) {
-                    System.out.print("Player 2 Wins");
-                    break;
-                }
+                break;
+            case 3:
+                System.out.println("Snake");
+                if ((position - die) < 0)
+                    position = 0;
+                else
+                    position -= die;
+                break;
+            default:
+                System.out.println("Wrong choice");
+        }
+        System.out.println("Dice Rolled:" + flag);
+        System.out.println("Position:" + position);
+        return position;
+    }
+
+    //Two player game
+    public static void twoPlayer()
+    {
+        int player1 = 0;
+        int player2 = 0;
+        int win = 0;
+        while (player1 != 100 || player2 != 100) {
+            player1 = gamePlay(player1);
+            win = winner(player1);
+            if (win == 1) {
+                System.out.println("Player 1 wins");
+                break;
             }
-            if (flag == 0)
-                flag = 1;
-            else
-                flag = 0;
+            player2 = gamePlay(player2);
+            win = winner(player2);
+            if (win == 1) {
+                System.out.println("Player 2 wins");
+                break;
+            }
         }
     }
-    public static int WinCheck(int position) {
-        if (position == 100) {
+
+    //Check winner
+    public static int winner(int win)
+    {
+        if (win == 100)
             return 1;
-        } else {
+        else
             return 0;
-        }
+    }
+
+    public static void main(String args[]) {
+        twoPlayer();
     }
 }
